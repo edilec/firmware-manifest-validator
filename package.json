@@ -1,0 +1,17 @@
+{
+  "name": "firmware-manifest-validator",
+  "version": "0.0.0",
+  "description": "Check firmware manifests for version, target, digest and rollback metadata.",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/edilec/firmware-manifest-validator"
+  }
+}
