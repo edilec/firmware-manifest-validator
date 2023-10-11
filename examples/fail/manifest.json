@@ -1,0 +1,1 @@
+{"schemaVersion":"1","complete":true,"targetHardware":"board-a","version":"1.3.0","sizeBytes":19,"digestSha256":"0000000000000000000000000000000000000000000000000000000000000000","compatibleFrom":["1.2.3"],"minBootloaderVersion":"1.0.0","rollback":{"supported":true,"version":"1.2.3"},"file":"firmware.bin"}
