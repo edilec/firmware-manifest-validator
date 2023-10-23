@@ -21,6 +21,10 @@ test('wrong target, wrong digest and wrong size fail without echoing values',()=
 test('missing rollback evidence is incomplete; explicit unavailable rollback fails',()=>{
   const m=manifest();delete m.rollback;let r=validateFirmware(policy(),m,binary,{now:()=>0});assert.equal(r.status,'incomplete');assert.ok(r.findings.some(x=>x.ruleId==='rollback-unknown'));m.rollback={supported:false,version:'1.2.3'};r=validateFirmware(policy(),m,binary,{now:()=>0});assert.equal(r.status,'fail');
 });
+test('explicit unsupported rollback needs no version, but supported rollback does',()=>{
+  const m=manifest();m.rollback={supported:false};let r=validateFirmware(policy(),m,binary,{now:()=>0});assert.equal(r.status,'fail');assert.ok(r.findings.some(x=>x.ruleId==='rollback-unavailable'));
+  m.rollback={supported:true};r=validateFirmware(policy(),m,binary,{now:()=>0});assert.equal(r.status,'incomplete');
+});
 test('compatibility and semantic version precedence are checked',()=>{
   const m=manifest();m.compatibleFrom=['1.0.0'];assert.equal(validateFirmware(policy(),m,binary,{now:()=>0}).findings[0].ruleId,'base-incompatible');m.compatibleFrom=['1.2.3'];m.version='1.2.3';assert.equal(validateFirmware(policy(),m,binary,{now:()=>0}).findings[0].ruleId,'version-not-newer');m.version='1.3.0-rc.1';assert.equal(validateFirmware(policy(),m,binary,{now:()=>0}).status,'pass');
 });

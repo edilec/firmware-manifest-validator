@@ -24,7 +24,7 @@ export function validateFirmware(policy,manifest,binary=null,{now=()=>performanc
   if(manifest.compatibleFrom.length>LIMITS.compatibleFrom){findings.push(finding('record-limit','@manifest','/compatibleFrom'));return report(findings);}
   if(manifest.compatibleFrom.length===0||manifest.compatibleFrom.some(x=>!semver(x))){findings.push(finding('input-invalid','@manifest','/compatibleFrom'));return report(findings);}
   if(manifest.rollback===undefined){findings.push(finding('rollback-unknown','@manifest','/rollback'));return report(findings);}
-  if(!object(manifest.rollback)||!keysOnly(manifest.rollback,['supported','version'])||typeof manifest.rollback.supported!=='boolean'||!semver(manifest.rollback.version)){findings.push(finding('input-invalid','@manifest','/rollback'));return report(findings);}
+  if(!object(manifest.rollback)||!keysOnly(manifest.rollback,['supported','version'])||typeof manifest.rollback.supported!=='boolean'||manifest.rollback.supported&& !semver(manifest.rollback.version)||!manifest.rollback.supported&&manifest.rollback.version!==undefined&&!semver(manifest.rollback.version)){findings.push(finding('input-invalid','@manifest','/rollback'));return report(findings);}
   if(binary!==null&&!Buffer.isBuffer(binary)){findings.push(finding('input-invalid','@firmware'));return report(findings);}
   if(binary&&binary.length>LIMITS.firmwareBytes){findings.push(finding('byte-limit','@firmware'));return report(findings);}
   if(manifest.file!==undefined&&binary===null){findings.push(finding('file-missing','@firmware'));return report(findings);}
